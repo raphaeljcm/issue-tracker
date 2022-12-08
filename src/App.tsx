@@ -1,4 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
@@ -13,9 +14,14 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={defaultTheme}>
         <BrowserRouter>
-          <Router />
+          <HelmetProvider>
+            <Helmet>
+              <link rel="preconnect" href="https://ui.dev/font" />
+            </Helmet>
+            <Router />
 
-          <GlobalStyle />
+            <GlobalStyle />
+          </HelmetProvider>
         </BrowserRouter>
       </ThemeProvider>
     </QueryClientProvider>

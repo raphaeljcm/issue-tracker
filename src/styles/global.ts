@@ -3,8 +3,6 @@ import { createGlobalStyle } from 'styled-components';
 import { devices, pxToRem } from '../utils/stylingHelpers';
 
 export const GlobalStyle = createGlobalStyle`
-  @import url("https://ui.dev/font");
-
   *,
   *:before,
   *:after {
