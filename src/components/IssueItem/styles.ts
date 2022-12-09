@@ -26,7 +26,7 @@ export const CommentCount = styled.span`
   font-size: 0.9rem;
 `;
 
-export const AssignedTo = styled.div`
+export const AssignedTo = styled.img`
   width: 1.5rem;
   border-radius: 100%;
 `;
