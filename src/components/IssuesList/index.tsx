@@ -6,21 +6,21 @@ import * as S from './styles';
 
 interface IssuesListProps {
   labels: string[];
+  status: string;
 }
 
 async function getIssues({ queryKey }: QueryFunctionContext): Promise<Issue[]> {
-  const issuesObj = queryKey[1] as IssuesListProps;
-  const labelsString = issuesObj.labels
-    .map(label => `labels[]=${label}`)
-    .join('&');
+  const { labels, status } = queryKey[1] as IssuesListProps;
+  const labelsString = labels.map(label => `labels[]=${label}`).join('&');
+  const statusString = status ? `&status=${status}` : '';
 
-  const response = await fetch(`/api/issues?${labelsString}`);
+  const response = await fetch(`/api/issues?${labelsString}${statusString}`);
   const data = await response.json();
   return data;
 }
 
-export function IssuesList({ labels }: IssuesListProps) {
-  const issuesQuery = useQuery(['issues', { labels }], getIssues);
+export function IssuesList({ labels, status }: IssuesListProps) {
+  const issuesQuery = useQuery(['issues', { labels, status }], getIssues);
 
   return (
     <div>
