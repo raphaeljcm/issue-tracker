@@ -1,21 +1,3 @@
-button,
-.button {
-  width: 100%;
-  cursor: pointer;
-  background: var(--yellow);
-  color: var(--black);
-  border-radius: 0.25rem;
-  border: none;
-  padding: 0.5rem 1rem;
-  font-weight: bold;
-  transition: background 0.1s ease-in-out;
-  text-align: center;
-  text-decoration: none;
-}
-button:hover,
-.button:hover {
-  background: var(--gold);
-}
 hr {
   width: 80%;
   border-color: #aaa;
@@ -35,9 +17,7 @@ form input {
   background-color: black;
   color: white;
 }
-.issue-content > span > span,
-.labels li button,
-.label {
+.issue-content > span > span {
   font-size: 0.75rem;
   font-weight: 600;
   border-radius: 999px;
@@ -45,13 +25,6 @@ form input {
   border: solid 1px;
   text-align: center;
   white-space: nowrap;
-}
-.labels ul {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
 }
 .status-select {
   background: black;

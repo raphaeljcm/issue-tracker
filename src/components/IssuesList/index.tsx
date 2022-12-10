@@ -1,23 +1,32 @@
-import { useQuery } from '@tanstack/react-query';
+import { QueryFunctionContext, useQuery } from '@tanstack/react-query';
 
 import { Issue } from '../../@types/types';
 import { IssueItem } from '../IssueItem';
 import * as S from './styles';
 
-async function getIssues(): Promise<Issue[]> {
-  const response = await fetch('/api/issues');
+interface IssuesListProps {
+  labels: string[];
+}
+
+async function getIssues({ queryKey }: QueryFunctionContext): Promise<Issue[]> {
+  const issuesObj = queryKey[1] as IssuesListProps;
+  const labelsString = issuesObj.labels
+    .map(label => `labels[]=${label}`)
+    .join('&');
+
+  const response = await fetch(`/api/issues?${labelsString}`);
   const data = await response.json();
   return data;
 }
 
-export function IssuesList() {
-  const issuesQuery = useQuery(['issues'], getIssues);
+export function IssuesList({ labels }: IssuesListProps) {
+  const issuesQuery = useQuery(['issues', { labels }], getIssues);
 
   return (
     <div>
       <h2>Issues List</h2>
       {issuesQuery.isLoading ? (
-        <p>Loading...</p>
+        <p>Loading Issues...</p>
       ) : issuesQuery.isError && issuesQuery.error instanceof Error ? (
         <p>{issuesQuery.error.message}</p>
       ) : (

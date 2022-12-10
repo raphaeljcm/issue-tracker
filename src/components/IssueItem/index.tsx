@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { relativeDate } from '../../helpers/relativeData';
 import { useUserData } from '../../hooks/useUserData';
+import { Label } from '../Label/index';
 import * as S from './styles';
 
 type IssueItemProps = {
@@ -42,9 +43,7 @@ export function IssueItem({
         <span>
           <Link to={`/issue/${number}`}>{title}</Link>
           {labels.map(label => (
-            <span key={label} className="red">
-              {label}
-            </span>
+            <Label key={label} label={label} />
           ))}
         </span>
         <small>
