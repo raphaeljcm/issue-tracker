@@ -1,7 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 
+import { User } from '../@types/types';
+
 export function useUserData(userId: string | null) {
-  async function getUser() {
+  async function getUser(): Promise<User | null> {
     if (!userId) {
       return null;
     }

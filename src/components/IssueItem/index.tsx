@@ -49,14 +49,14 @@ export function IssueItem({
         <small>
           #{number} opened {relativeDate(createdDate)}{' '}
           {createdByUser.isSuccess
-            ? `by ${createdByUser.data.name}`
+            ? `by ${createdByUser.data?.name}`
             : 'Loading user...'}
         </small>
       </S.IssueContent>
       {assignee && (
         <S.AssignedTo
           src={
-            assigneeUser.isSuccess ? assigneeUser.data.profilePictureUrl : ''
+            assigneeUser.isSuccess ? assigneeUser.data?.profilePictureUrl : ''
           }
           alt="assignee avatar"
         />

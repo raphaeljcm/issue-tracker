@@ -56,41 +56,6 @@ form input {
   align-self: flex-end;
   font-size: 1rem;
 }
-
-.issue-details header {
-  border-bottom: solid 1px #aaa;
-  padding-bottom: 1rem;
-}
-.issue-details h2 span {
-  color: #aaa;
-}
-.issue-details header div {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: #aaa;
-  font-size: 0.9rem;
-}
-.issue-details .created-by {
-  font-weight: bold;
-}
-.issue-details .open,
-.issue-details .closed {
-  color: white;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  width: max-content;
-  padding: 0.25rem 0.5rem;
-  border-radius: 999px;
-  font-size: 1rem;
-}
-.issue-details .open {
-  background: green;
-}
-.issue-details .closed {
-  background: red;
-}
 .issue-options {
   border-bottom: solid 1px #aaa;
   padding: 1rem 0;
@@ -107,26 +72,12 @@ form input {
   display: block;
   margin-bottom: 0.5rem;
 }
-.issue-details aside img {
-  width: 1.5rem;
-  height: 1.5rem;
-  border-radius: 999px;
-}
 .issue-options > div > div {
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
-.issue-details aside > div {
-  position: relative;
-}
-.issue-details aside svg {
-  cursor: pointer;
-  transition: transform 0.25s ease-in-out;
-}
-.issue-details aside svg:hover {
-  transform: rotate(30deg);
-}
+
 .issue-details aside .status-select {
   font-size: 0.8rem;
 }
@@ -162,37 +113,6 @@ form input {
 
 .issue-options .picker-menu > div:hover {
   background-color: #333;
-}
-
-.comment {
-  margin: 1rem 0;
-  display: flex;
-  gap: 1rem;
-}
-.comment > img {
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 999px;
-}
-.comment > div {
-  flex: 1;
-  border: solid 1px #aaa;
-  border-radius: 0.25rem;
-  overflow: hidden;
-}
-.comment-header {
-  padding: 0.5rem;
-  border-bottom: solid 1px #aaa;
-  background-color: #111;
-  font-size: 0.9rem;
-  color: #aaa;
-}
-.comment-header > span:first-child {
-  font-weight: bold;
-  color: white;
-}
-.comment-body {
-  padding: 0.75rem;
 }
 .pagination {
   display: flex;
