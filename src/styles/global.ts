@@ -3,7 +3,10 @@ import { createGlobalStyle } from 'styled-components';
 import { devices, pxToRem } from '../utils/stylingHelpers';
 
 export const GlobalStyle = createGlobalStyle`
-  *,
+  * {
+    box-sizing: border-box;
+  }
+
   *:before,
   *:after {
     box-sizing: inherit;

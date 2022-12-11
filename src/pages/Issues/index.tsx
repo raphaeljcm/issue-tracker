@@ -21,7 +21,6 @@ export function Issues() {
     <div>
       <S.MainContainer>
         <S.SectionContainer>
-          <h1>Issues</h1>
           <IssuesList labels={selectedLabels} status={selectedStatus} />
         </S.SectionContainer>
         <S.AsideContainer>
