@@ -2,26 +2,23 @@ import { QueryFunctionContext, useQueries } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 
 import { IssueComment } from '../../@types/types';
+import { fetchWithErrors } from '../../utils/fetchWithErrors';
 import { Comment } from '../Comment';
 import { IssueHeader } from '../IssueHeader';
 import * as S from './styles';
 
-async function getIssue({ queryKey }: QueryFunctionContext) {
+function getIssue({ queryKey }: QueryFunctionContext) {
   const issueNumber = queryKey[1];
 
-  const response = await fetch(`/api/issues/${issueNumber}`);
-  const data = await response.json();
-  return data;
+  return fetchWithErrors(`/api/issues/${issueNumber}`);
 }
 
-async function getIssueComments({
+function getIssueComments({
   queryKey,
 }: QueryFunctionContext): Promise<IssueComment[]> {
   const issueNumber = queryKey[1];
 
-  const response = await fetch(`/api/issues/${issueNumber}/comments`);
-  const data = await response.json();
-  return data;
+  return fetchWithErrors(`/api/issues/${issueNumber}/comments`);
 }
 
 export function IssueDetails() {

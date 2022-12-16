@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { User } from '../@types/types';
+import { fetchWithErrors } from '../utils/fetchWithErrors';
 
 export function useUserData(userId: string | null) {
   async function getUser(): Promise<User | null> {
@@ -8,9 +9,7 @@ export function useUserData(userId: string | null) {
       return null;
     }
 
-    const response = await fetch(`/api/users/${userId}`);
-    const data = response.json();
-    return data;
+    return fetchWithErrors(`/api/users/${userId}`);
   }
 
   return useQuery(['user', userId], getUser, {
