@@ -13,5 +13,7 @@ export function useUserData(userId: string | null) {
     return data;
   }
 
-  return useQuery(['user', userId], getUser);
+  return useQuery(['user', userId], getUser, {
+    staleTime: 1000 * 60 * 5, // 5 minutes
+  });
 }

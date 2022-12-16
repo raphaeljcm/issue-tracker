@@ -2,6 +2,7 @@ import { QueryFunctionContext, useQuery } from '@tanstack/react-query';
 import { FormEvent, useState } from 'react';
 
 import { Issue } from '../../@types/types';
+import { fetchWithErrors } from '../../utils/fetchWithErrors';
 import { IssueItem } from '../IssueItem';
 import * as S from './styles';
 
@@ -15,28 +16,28 @@ interface SearchQueryResponse {
   items: Issue[];
 }
 
-async function getIssues({ queryKey }: QueryFunctionContext): Promise<Issue[]> {
+function getIssues({ queryKey }: QueryFunctionContext): Promise<Issue[]> {
   const { labels, status } = queryKey[1] as IssuesListProps;
+
   const labelsString = labels.map(label => `labels[]=${label}`).join('&');
   const statusString = status ? `&status=${status}` : '';
 
-  const response = await fetch(`/api/issues?${labelsString}${statusString}`);
-  const data = await response.json();
-  return data;
+  return fetchWithErrors(`/api/issues?${labelsString}${statusString}`);
 }
 
-async function getSearchedIssues({
+function getSearchedIssues({
   queryKey,
 }: QueryFunctionContext): Promise<SearchQueryResponse> {
   const searchValue = queryKey[2];
-  const response = await fetch(`/api/search/issues?q=${searchValue}`);
-  const data = await response.json();
-  return data;
+  return fetchWithErrors(`/api/search/issues?q=${searchValue}`);
 }
 
 export function IssuesList({ labels, status }: IssuesListProps) {
   const [searchValue, setSearchValue] = useState('');
-  const issuesQuery = useQuery(['issues', { labels, status }], getIssues);
+  const issuesQuery = useQuery(['issues', { labels, status }], getIssues, {
+    staleTime: 1000 * 60, // 1 minute
+  });
+
   const searchQuery = useQuery(
     ['issues', 'search', searchValue],
     getSearchedIssues,
