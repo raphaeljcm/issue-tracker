@@ -34,9 +34,7 @@ function getSearchedIssues({
 
 export function IssuesList({ labels, status }: IssuesListProps) {
   const [searchValue, setSearchValue] = useState('');
-  const issuesQuery = useQuery(['issues', { labels, status }], getIssues, {
-    staleTime: 1000 * 60, // 1 minute
-  });
+  const issuesQuery = useQuery(['issues', { labels, status }], getIssues);
 
   const searchQuery = useQuery(
     ['issues', 'search', searchValue],
