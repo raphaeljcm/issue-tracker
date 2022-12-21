@@ -4,6 +4,7 @@ import { FormEvent, useState } from 'react';
 import { Issue } from '../../@types/types';
 import { fetchWithErrors } from '../../utils/fetchWithErrors';
 import { IssueItem } from '../IssueItem';
+import { Loader } from '../Loader';
 import * as S from './styles';
 
 interface IssuesListProps {
@@ -71,7 +72,7 @@ export function IssuesList({ labels, status }: IssuesListProps) {
           }
         />
       </S.SearchFormContainer>
-      <h2>Issues List</h2>
+      <h2>Issues List {issuesQuery.isFetching && <Loader />}</h2>
       {issuesQuery.isLoading ? (
         <p>Loading Issues...</p>
       ) : issuesQuery.isError && issuesQuery.error instanceof Error ? (
