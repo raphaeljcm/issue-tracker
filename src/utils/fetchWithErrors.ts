@@ -1,10 +1,10 @@
-export async function fetchWithErrors(url: string, options?: any) {
+export async function fetchWithErrors(url: string, options?: RequestInit) {
   const response = await fetch(url, options);
   const body = await response.json();
 
   let errorMessage = '';
 
-  if (response.status !== 200) {
+  if (response.status !== 200 && body.error) {
     errorMessage += `Request failed with status ${response.status}. `;
     errorMessage += body.error ? body.error : 'An error has occurred';
   }

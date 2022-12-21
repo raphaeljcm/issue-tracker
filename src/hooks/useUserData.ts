@@ -1,15 +1,17 @@
-import { useQuery } from '@tanstack/react-query';
+import { QueryFunctionContext, useQuery } from '@tanstack/react-query';
 
 import { User } from '../@types/types';
 import { fetchWithErrors } from '../utils/fetchWithErrors';
 
 export function useUserData(userId: string | null) {
-  async function getUser(): Promise<User | null> {
+  async function getUser({
+    signal,
+  }: QueryFunctionContext): Promise<User | null> {
     if (!userId) {
       return null;
     }
 
-    return fetchWithErrors(`/api/users/${userId}`);
+    return fetchWithErrors(`/api/users/${userId}`, { signal });
   }
 
   return useQuery(['user', userId], getUser, {

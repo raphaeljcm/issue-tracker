@@ -1,11 +1,11 @@
-import { useQuery } from '@tanstack/react-query';
+import { QueryFunctionContext, useQuery } from '@tanstack/react-query';
 
 import { Label } from '../@types/types';
 import { fetchWithErrors } from '../utils/fetchWithErrors';
 
 export function useLabelsData() {
-  function getLabels(): Promise<Label[]> {
-    return fetchWithErrors('/api/labels');
+  function getLabels({ signal }: QueryFunctionContext): Promise<Label[]> {
+    return fetchWithErrors('/api/labels', { signal });
   }
 
   return useQuery(['labels'], getLabels, {

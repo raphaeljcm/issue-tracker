@@ -7,18 +7,19 @@ import { Comment } from '../Comment';
 import { IssueHeader } from '../IssueHeader';
 import * as S from './styles';
 
-function getIssue({ queryKey }: QueryFunctionContext) {
+function getIssue({ queryKey, signal }: QueryFunctionContext) {
   const issueNumber = queryKey[1];
 
-  return fetchWithErrors(`/api/issues/${issueNumber}`);
+  return fetchWithErrors(`/api/issues/${issueNumber}`, { signal });
 }
 
 function getIssueComments({
   queryKey,
+  signal,
 }: QueryFunctionContext): Promise<IssueComment[]> {
   const issueNumber = queryKey[1];
 
-  return fetchWithErrors(`/api/issues/${issueNumber}/comments`);
+  return fetchWithErrors(`/api/issues/${issueNumber}/comments`, { signal });
 }
 
 export function IssueDetails() {

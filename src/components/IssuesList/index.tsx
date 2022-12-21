@@ -16,20 +16,26 @@ interface SearchQueryResponse {
   items: Issue[];
 }
 
-function getIssues({ queryKey }: QueryFunctionContext): Promise<Issue[]> {
+function getIssues({
+  queryKey,
+  signal,
+}: QueryFunctionContext): Promise<Issue[]> {
   const { labels, status } = queryKey[1] as IssuesListProps;
 
   const labelsString = labels.map(label => `labels[]=${label}`).join('&');
   const statusString = status ? `&status=${status}` : '';
 
-  return fetchWithErrors(`/api/issues?${labelsString}${statusString}`);
+  return fetchWithErrors(`/api/issues?${labelsString}${statusString}`, {
+    signal,
+  });
 }
 
 function getSearchedIssues({
   queryKey,
+  signal,
 }: QueryFunctionContext): Promise<SearchQueryResponse> {
   const searchValue = queryKey[2];
-  return fetchWithErrors(`/api/search/issues?q=${searchValue}`);
+  return fetchWithErrors(`/api/search/issues?q=${searchValue}`, { signal });
 }
 
 export function IssuesList({ labels, status }: IssuesListProps) {
