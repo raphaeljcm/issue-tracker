@@ -1,6 +1,7 @@
 import { QueryFunctionContext, useQuery } from '@tanstack/react-query';
 
 import { Label } from '../@types/types';
+import { defaultLabels } from '../helpers/defaultData';
 import { fetchWithErrors } from '../utils/fetchWithErrors';
 
 export function useLabelsData() {
@@ -10,5 +11,6 @@ export function useLabelsData() {
 
   return useQuery(['labels'], getLabels, {
     staleTime: 1000 * 60 * 60, // 60 minutes
+    placeholderData: defaultLabels,
   });
 }

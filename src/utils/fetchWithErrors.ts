@@ -1,4 +1,7 @@
-export async function fetchWithErrors(url: string, options?: RequestInit) {
+export async function fetchWithErrors<T>(
+  url: string,
+  options?: RequestInit,
+): Promise<T> {
   const response = await fetch(url, options);
   const body = await response.json();
 

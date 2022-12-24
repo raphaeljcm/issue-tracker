@@ -1,4 +1,9 @@
-import { QueryFunctionContext, useQuery } from '@tanstack/react-query';
+import {
+  QueryClient,
+  QueryFunctionContext,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { FormEvent, useState } from 'react';
 
 import { Issue } from '../../@types/types';
@@ -17,18 +22,30 @@ interface SearchQueryResponse {
   items: Issue[];
 }
 
-function getIssues({
-  queryKey,
-  signal,
-}: QueryFunctionContext): Promise<Issue[]> {
-  const { labels, status } = queryKey[1] as IssuesListProps;
+async function getIssues(
+  queryClient: QueryClient,
+  filterObj: { labels: string[]; status: string },
+): Promise<Issue[]> {
+  const controller = new AbortController();
+  const signal = controller.signal;
+  const { labels, status } = filterObj;
 
   const labelsString = labels.map(label => `labels[]=${label}`).join('&');
   const statusString = status ? `&status=${status}` : '';
 
-  return fetchWithErrors(`/api/issues?${labelsString}${statusString}`, {
-    signal,
+  const result = await fetchWithErrors<Issue[]>(
+    `/api/issues?${labelsString}${statusString}`,
+    {
+      signal,
+    },
+  );
+
+  // prefetching issue data that is used on IssueDetails component
+  result.forEach(issue => {
+    queryClient.setQueryData(['issues', String(issue.number)], issue);
   });
+
+  return result;
 }
 
 function getSearchedIssues({
@@ -40,8 +57,11 @@ function getSearchedIssues({
 }
 
 export function IssuesList({ labels, status }: IssuesListProps) {
+  const queryClient = useQueryClient();
   const [searchValue, setSearchValue] = useState('');
-  const issuesQuery = useQuery(['issues', { labels, status }], getIssues);
+  const issuesQuery = useQuery(['issues', { labels, status }], () =>
+    getIssues(queryClient, { labels, status }),
+  );
 
   const searchQuery = useQuery(
     ['issues', 'search', searchValue],

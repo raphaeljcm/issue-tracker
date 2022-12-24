@@ -1,13 +1,13 @@
 import { QueryFunctionContext, useQueries } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 
-import { IssueComment } from '../../@types/types';
+import { Issue, IssueComment } from '../../@types/types';
 import { fetchWithErrors } from '../../utils/fetchWithErrors';
 import { Comment } from '../Comment';
 import { IssueHeader } from '../IssueHeader';
 import * as S from './styles';
 
-function getIssue({ queryKey, signal }: QueryFunctionContext) {
+function getIssue({ queryKey, signal }: QueryFunctionContext): Promise<Issue> {
   const issueNumber = queryKey[1];
 
   return fetchWithErrors(`/api/issues/${issueNumber}`, { signal });
@@ -33,11 +33,14 @@ export function IssueDetails() {
 
   return (
     <S.IssueDetailsContainer>
+      {issueQuery.isError && issueQuery.error instanceof Error && (
+        <p>{issueQuery.error.message}</p>
+      )}
       {issueQuery.isLoading ? (
         <p>Loading issue...</p>
       ) : (
         <>
-          <IssueHeader {...issueQuery.data} />
+          <IssueHeader {...issueQuery.data!} />
           <main>
             <section>
               {issueCommentsQuery.isLoading ? (
