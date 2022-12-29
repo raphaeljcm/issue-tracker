@@ -1,5 +1,7 @@
 import { useCallback, useState } from 'react';
+import { Link } from 'react-router-dom';
 
+import { Button } from '../../components/Button';
 import { IssuesList } from '../../components/IssuesList';
 import { LabelList } from '../../components/LabelList';
 import { StatusSelect } from '../../components/StatusSelect';
@@ -33,6 +35,10 @@ export function Issues() {
             value={selectedStatus}
             onChange={event => setSelectedStatus(event.target.value)}
           />
+          <hr />
+          <Button>
+            <Link to="/add">Add Issue</Link>
+          </Button>
         </S.AsideContainer>
       </S.MainContainer>
     </div>

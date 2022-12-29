@@ -43,6 +43,11 @@ export const GlobalStyle = createGlobalStyle`
     font-weight: 600;
   }
 
+  hr {
+    width: 80%;
+    border-color: #aaa;
+  }
+
   // Global Classes
   .container {
     margin: 0 auto;

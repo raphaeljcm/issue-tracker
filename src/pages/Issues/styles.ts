@@ -14,4 +14,9 @@ export const AsideContainer = styled.aside`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+
+  a {
+    color: ${({ theme }) => theme.black};
+    text-decoration: none;
+  }
 `;
