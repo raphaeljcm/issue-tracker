@@ -35,8 +35,9 @@ export function AddIssue() {
   const addIssueMutation = useMutation(addNewIssue, {
     onSuccess: data => {
       queryClient.setQueryData(['issues', data.number.toString()], data);
-      // I won't need to invalidate any queries in this case
-      // 'cause issues query is not even mounted, so it's innactive
+      queryClient.refetchQueries(['issues', { labels: [], status: '' }], {
+        exact: true,
+      });
 
       navigate(`/issue/${data.number}`);
     },
