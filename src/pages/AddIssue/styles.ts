@@ -32,6 +32,10 @@ export const AddIssueContainer = styled.div`
       width: max-content;
       align-self: flex-end;
       font-size: 1rem;
+
+      &:disabled {
+        cursor: not-allowed;
+      }
     }
 
     label {
