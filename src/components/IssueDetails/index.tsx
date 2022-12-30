@@ -5,6 +5,7 @@ import { Issue, IssueComment } from '../../@types/types';
 import { fetchWithErrors } from '../../utils/fetchWithErrors';
 import { Comment } from '../Comment';
 import { IssueHeader } from '../IssueHeader';
+import { IssueStatus } from '../IssueStatus';
 import * as S from './styles';
 
 function getIssue({ queryKey, signal }: QueryFunctionContext): Promise<Issue> {
@@ -51,7 +52,14 @@ export function IssueDetails() {
                 ))
               )}
             </section>
-            <aside></aside>
+            <aside>
+              {!!issueQuery.data && (
+                <IssueStatus
+                  status={issueQuery.data.status}
+                  issueNumber={issueQuery.data.number.toString()}
+                />
+              )}
+            </aside>
           </main>
         </>
       )}

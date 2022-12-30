@@ -5,13 +5,20 @@ import * as S from './styles';
 
 interface StatusSelectProps {
   value: string;
+  noEmptyOption?: boolean;
   onChange: (event: ChangeEvent<HTMLSelectElement>) => void;
 }
 
-export function StatusSelect({ value, onChange }: StatusSelectProps) {
+export function StatusSelect({
+  value,
+  noEmptyOption = false,
+  onChange,
+}: StatusSelectProps) {
   return (
     <S.StyledStatusSelect value={value} onChange={onChange}>
-      <option value="">Select a status to filter</option>
+      {noEmptyOption ? null : (
+        <option value="">Select a status to filter</option>
+      )}
       {possibleStatus.map(status => (
         <option key={status.id} value={status.id}>
           {status.label}
