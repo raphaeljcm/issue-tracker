@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { Issue, IssueComment } from '../../@types/types';
 import { fetchWithErrors } from '../../utils/fetchWithErrors';
 import { Comment } from '../Comment';
+import { IssueAssignment } from '../IssueAssignment';
 import { IssueHeader } from '../IssueHeader';
 import { IssueStatus } from '../IssueStatus';
 import * as S from './styles';
@@ -54,10 +55,16 @@ export function IssueDetails() {
             </section>
             <aside>
               {!!issueQuery.data && (
-                <IssueStatus
-                  status={issueQuery.data.status}
-                  issueNumber={issueQuery.data.number.toString()}
-                />
+                <>
+                  <IssueStatus
+                    status={issueQuery.data.status}
+                    issueNumber={issueQuery.data.number.toString()}
+                  />
+                  <IssueAssignment
+                    assignee={issueQuery.data.assignee}
+                    issueNumber={issueQuery.data.number.toString()}
+                  />
+                </>
               )}
             </aside>
           </main>

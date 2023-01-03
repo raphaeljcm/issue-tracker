@@ -1,14 +1,14 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { Issue, Status } from '../../@types/types';
+import { Issue } from '../../@types/types';
 import { fetchWithErrors } from '../../utils/fetchWithErrors';
 
-interface UpdateStatusProps {
-  status: string;
+interface UpdateAssigneeProps {
+  assignee: string | null;
   number: string;
 }
 
-function updateStatus({ status, number }: UpdateStatusProps) {
+function updateAssignee({ assignee, number }: UpdateAssigneeProps) {
   const aborter = new AbortController();
   const signal = aborter.signal;
 
@@ -16,29 +16,28 @@ function updateStatus({ status, number }: UpdateStatusProps) {
     signal,
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ status }),
+    body: JSON.stringify({ assignee }),
   });
 
   return data;
 }
 
-export function useIssueStatus({ issueNumber }: { issueNumber: string }) {
+export function useIssueAssignment({ issueNumber }: { issueNumber: string }) {
   const queryClient = useQueryClient();
 
-  return useMutation(updateStatus, {
-    onMutate: ({ status }) => {
-      const newStatus = status as unknown as Status;
-      const oldStatus = queryClient.getQueryData<Issue>([
+  return useMutation(updateAssignee, {
+    onMutate: ({ assignee }) => {
+      const oldAssignee = queryClient.getQueryData<Issue>([
         'issues',
         issueNumber,
-      ])?.status;
+      ])?.assignee;
 
       queryClient.setQueryData<Issue>(
         ['issues', issueNumber],
         oldStatusObj =>
           oldStatusObj && {
             ...oldStatusObj,
-            status: newStatus,
+            assignee,
           },
       );
 
@@ -49,7 +48,7 @@ export function useIssueStatus({ issueNumber }: { issueNumber: string }) {
           data =>
             data && {
               ...data,
-              status: oldStatus!,
+              assignee: oldAssignee!,
             },
         );
       };
