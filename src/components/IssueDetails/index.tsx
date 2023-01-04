@@ -6,6 +6,7 @@ import { fetchWithErrors } from '../../utils/fetchWithErrors';
 import { Comment } from '../Comment';
 import { IssueAssignment } from '../IssueAssignment';
 import { IssueHeader } from '../IssueHeader';
+import { IssueLabels } from '../IssueLabels';
 import { IssueStatus } from '../IssueStatus';
 import * as S from './styles';
 
@@ -62,6 +63,10 @@ export function IssueDetails() {
                   />
                   <IssueAssignment
                     assignee={issueQuery.data.assignee}
+                    issueNumber={issueQuery.data.number.toString()}
+                  />
+                  <IssueLabels
+                    labels={issueQuery.data.labels}
                     issueNumber={issueQuery.data.number.toString()}
                   />
                 </>
