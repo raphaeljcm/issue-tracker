@@ -13,7 +13,7 @@ export const IssueOption = styled.div`
     display: block;
     margin-bottom: 0.5rem;
 
-    &:last-of-type {
+    &:not(:first-of-type) {
       font-size: 0.75rem;
       font-weight: 600;
       border-radius: 999px;
@@ -57,8 +57,6 @@ interface LabelLiProps {
 }
 
 export const LabelLi = styled.li<LabelLiProps>`
-  border-radius: 999px;
-
   ${({ isSelected }) =>
     isSelected &&
     css`
