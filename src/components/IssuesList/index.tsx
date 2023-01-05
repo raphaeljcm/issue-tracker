@@ -4,7 +4,7 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 
 import { Issue, Status } from '../../@types/types';
 import { fetchWithErrors } from '../../utils/fetchWithErrors';
@@ -84,6 +84,18 @@ export function IssuesList({
       enabled: !!searchValue,
     },
   );
+
+  useEffect(() => {
+    queryClient.prefetchQuery(
+      ['issues', { labels, status, currentPage: currentPage + 1 }],
+      () =>
+        getIssues(queryClient, {
+          labels,
+          status,
+          currentPage: currentPage + 1,
+        }),
+    );
+  }, [queryClient, labels, status, currentPage]);
 
   function handleFormSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
