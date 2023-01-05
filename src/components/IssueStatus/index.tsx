@@ -1,10 +1,9 @@
-import { Status } from '../../@types/types';
 import { StatusSelect } from '../StatusSelect';
 import * as S from './styles';
 import { useIssueStatus } from './useIssueStatus';
 
 interface IssueStatusProps {
-  status: Status;
+  status: 'backlog' | 'todo' | 'inProgress' | 'done' | 'cancelled';
   issueNumber: string;
 }
 

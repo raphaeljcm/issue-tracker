@@ -10,9 +10,7 @@ export interface Label {
   color: string;
 }
 
-export interface Status {
-  status: 'backlog' | 'todo' | 'inProgress' | 'done' | 'cancelled';
-}
+export type Status = 'backlog' | 'todo' | 'inProgress' | 'done' | 'cancelled';
 
 export interface Issue {
   id: string;

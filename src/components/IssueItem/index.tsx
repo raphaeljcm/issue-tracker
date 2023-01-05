@@ -16,7 +16,7 @@ type IssueItemProps = {
   createdBy: string;
   createdDate: Date;
   labels: string[];
-  status: string;
+  status: 'backlog' | 'todo' | 'inProgress' | 'done' | 'cancelled';
 };
 
 export function IssueItem({

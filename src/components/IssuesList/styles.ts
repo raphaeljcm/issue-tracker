@@ -54,3 +54,13 @@ export const SearchFormContainer = styled.form`
     color: white;
   }
 `;
+
+export const PaginationContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+  button {
+    width: max-content;
+  }
+`;

@@ -17,4 +17,9 @@ export const ButtonStyled = styled.button`
   &:hover {
     background-color: ${({ theme }) => theme.gold};
   }
+
+  &:disabled {
+    filter: brightness(30%);
+    cursor: not-allowed;
+  }
 `;
