@@ -1,13 +1,19 @@
-import { QueryFunctionContext, useQueries } from '@tanstack/react-query';
+import {
+  QueryFunctionContext,
+  useInfiniteQuery,
+  useQuery,
+} from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 
 import { Issue, IssueComment } from '../../@types/types';
+import { useScrollToBottom } from '../../hooks/useScrollToBottom';
 import { fetchWithErrors } from '../../utils/fetchWithErrors';
 import { Comment } from '../Comment';
 import { IssueAssignment } from '../IssueAssignment';
 import { IssueHeader } from '../IssueHeader';
 import { IssueLabels } from '../IssueLabels';
 import { IssueStatus } from '../IssueStatus';
+import { Loader } from '../Loader';
 import * as S from './styles';
 
 function getIssue({ queryKey, signal }: QueryFunctionContext): Promise<Issue> {
@@ -18,21 +24,32 @@ function getIssue({ queryKey, signal }: QueryFunctionContext): Promise<Issue> {
 
 function getIssueComments({
   queryKey,
+  pageParam = 1,
   signal,
 }: QueryFunctionContext): Promise<IssueComment[]> {
   const issueNumber = queryKey[1];
 
-  return fetchWithErrors(`/api/issues/${issueNumber}/comments`, { signal });
+  return fetchWithErrors(
+    `/api/issues/${issueNumber}/comments?page=${pageParam}`,
+    { signal },
+  );
 }
 
 export function IssueDetails() {
   const { number } = useParams();
-  const [issueQuery, issueCommentsQuery] = useQueries({
-    queries: [
-      { queryKey: ['issues', number], queryFn: getIssue },
-      { queryKey: ['issues', number, 'comments'], queryFn: getIssueComments },
-    ],
-  });
+  const issueQuery = useQuery(['issues', number], getIssue);
+  const infiniteCommentQuery = useInfiniteQuery(
+    ['issues', number, 'comments'],
+    getIssueComments,
+    {
+      getNextPageParam: (lastPage, allPages) => {
+        if (lastPage.length === 0) return;
+        return allPages.length + 1;
+      },
+    },
+  );
+
+  useScrollToBottom(document, infiniteCommentQuery.fetchNextPage, 100);
 
   return (
     <S.IssueDetailsContainer>
@@ -46,13 +63,16 @@ export function IssueDetails() {
           <IssueHeader {...issueQuery.data!} />
           <main>
             <section>
-              {issueCommentsQuery.isLoading ? (
+              {infiniteCommentQuery.isLoading ? (
                 <p>Loading comments...</p>
               ) : (
-                issueCommentsQuery.data?.map(comment => (
-                  <Comment key={comment.id} {...comment} />
-                ))
+                infiniteCommentQuery.data?.pages?.map(commentPage =>
+                  commentPage.map(comment => (
+                    <Comment key={comment.id} {...comment} />
+                  )),
+                )
               )}
+              {infiniteCommentQuery.isFetchingNextPage && <Loader />}
             </section>
             <aside>
               {!!issueQuery.data && (
