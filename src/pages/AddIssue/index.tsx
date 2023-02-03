@@ -35,7 +35,7 @@ export function AddIssue() {
   const addIssueMutation = useMutation(addNewIssue, {
     onSuccess: data => {
       queryClient.setQueryData(['issues', data.number.toString()], data);
-      queryClient.refetchQueries(['issues', {}]);
+      queryClient.invalidateQueries(['issues', {}]);
 
       navigate(`/issue/${data.number}`);
     },
